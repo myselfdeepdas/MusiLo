@@ -11,7 +11,7 @@ The APP has some basic functionalities like: ⏬
 4) Previous button for playing previous songs. ⏮
 5) Fast Forward & Back Fast Forward button. forwar
 6) Timestamp for current postions and last postions of the songs.
-7) Fully automatic & adustable SeekBar for user convienince.
+7) Fully automatic & adustable SeekBar for user convenience.
 8) A nice good looking UI.
 
 
