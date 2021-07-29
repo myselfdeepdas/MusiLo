@@ -1,4 +1,4 @@
-# MusiLo 📳
+# MusiLo 🎵
 <h3><i>
 A Light weight, Powerful and Fast Music Player with a nice design. MusiLo Music Player lets you manage all your music files by reading songs from your internal storage quickly and easily. This music player has a simple design for you to play songs of your choice!. </i></h3>
 
@@ -9,7 +9,7 @@ The APP has some basic functionalities like: ⏬
 2) Auto Playing feature embaded.
 3) Next button for playing next songs. ⏭
 4) Previous button for playing previous songs. ⏮
-5) Fast Forward & Back Fast Forward button. forwar
+5) Fast Forward & Back Fast Forward button.
 6) Timestamp for current postions and last postions of the songs.
 7) Fully automatic & adustable SeekBar for user convenience.
 8) A nice good looking UI.
