@@ -48,9 +48,7 @@ public class HomeActivity extends AppCompatActivity {
                             @Override
                             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                 Intent intent = new Intent(HomeActivity.this, PlaySong.class);
-                                String currentSong = ListView.getItemAtPosition(position).toString();
                                 intent.putExtra("songList", mySongs);
-                                intent.putExtra("currentSong", currentSong);
                                 intent.putExtra("position", position);
                                 startActivity(intent);
                             }
