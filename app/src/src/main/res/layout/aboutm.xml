@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="370dp"
+    android:layout_height="650dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:background="@drawable/about">
+
+    <ImageView
+        android:id="@+id/info"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="52dp"
+        android:src="@drawable/info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="MusiLo"
+        android:id="@+id/mus"
+        android:textSize="50sp"
+        android:textAlignment="center"
+        android:textColor="#FF0000"
+        app:layout_constraintTop_toBottomOf="@id/info"
+        android:gravity="center_horizontal" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:layout_constraintTop_toBottomOf="@+id/mus"
+        android:text="Musilo is a musicplayer app design by deep das.It's a offline music player."
+        android:textAlignment="center"
+        android:fontFamily="sans-serif"
+        android:textStyle="italic"
+        android:textSize="30sp"
+        android:layout_marginTop="70dp"
+        android:gravity="center_horizontal"
+        tools:ignore="HardcodedText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
