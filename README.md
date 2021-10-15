@@ -14,7 +14,8 @@ The APP has some basic functionalities like: ⏬
 7) Fully automatic & adustable SeekBar for user convenience.
 8) A nice good looking UI.
 
-
+# NOTE:
+* MAIN BRANCH IS THE OPEN-SOURCE CONTRIBUTING BRANCH, ANYONE CAN CONTRIBUTE TO THIS BRANCH ONLY, DONT MAKE PR OR CHANGES TO OTHER BRANCHES. 
 
 ## Developer 👨‍💻
 
