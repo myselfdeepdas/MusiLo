@@ -18,11 +18,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class PlaySong extends AppCompatActivity {
+public class PlaySong extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener {
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mHandler.removeCallbacks(mUpdateSeekBarTask);
         mediaPlayer.stop();
         mediaPlayer.release();
     }
@@ -33,6 +34,7 @@ public class PlaySong extends AppCompatActivity {
     int position;
     SeekBar seekBar;
     boolean looping, shuffling;
+    private Handler mHandler = new Handler();
 //    @Override
 //    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 //        if (item.getItemId() == android.R.id.home)
@@ -43,7 +45,18 @@ public class PlaySong extends AppCompatActivity {
 //        return super.onOptionsItemSelected(item);
 //    }
 
-
+    private Runnable mUpdateSeekBarTask = new Runnable() {
+        public void run() {
+            String duration = createTime(mediaPlayer.getDuration());
+            String currentTime = createTime(mediaPlayer.getCurrentPosition());
+            txtSongStart.setText(currentTime);
+            txtSongEnd.setText(duration);
+            int currentPosition = mediaPlayer.getCurrentPosition();
+            seekBar.setProgress(currentPosition);
+            // Running this thread after 100 milliseconds
+            mHandler.postDelayed(this, 1000);
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,57 +81,12 @@ public class PlaySong extends AppCompatActivity {
 
         playSong(songs.get(position));
 
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        seekBar.setOnSeekBarChangeListener(this);
 
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                mediaPlayer.seekTo(seekBar.getProgress());
-            }
-        });
-
-        Thread updateSeek = new Thread() {
-            @Override
-            public void run() {
-                int totalDuration = mediaPlayer.getDuration();
-                int currentPosition = 0;
-                while (currentPosition < totalDuration) {
-                    try {
-                        sleep(500);
-                        currentPosition = mediaPlayer.getCurrentPosition();
-                        seekBar.setProgress(currentPosition);
-
-                    } catch (InterruptedException | IllegalStateException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        };
-        updateSeek.start();
         seekBar.getProgressDrawable().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.MULTIPLY);
         seekBar.getThumb().setColorFilter(getResources().getColor(R.color.white),PorterDuff.Mode.SRC_IN);
 
-        final Handler handler = new Handler();
         final int delay = 1000;
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                String duration = createTime(mediaPlayer.getDuration());
-                String currentTime = createTime(mediaPlayer.getCurrentPosition());
-                txtSongStart.setText(currentTime);
-                txtSongEnd.setText(duration);
-                handler.postDelayed(this,delay);
-            }
-        },delay);
 
         play.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,6 +151,7 @@ public class PlaySong extends AppCompatActivity {
 
         setLoop.setOnClickListener(v -> {
             looping = !looping;
+            mediaPlayer.setLooping(looping);
             setLoop.setImageResource(looping ? R.drawable.loop_on : R.drawable.loop);
         });
 
@@ -215,14 +184,10 @@ public class PlaySong extends AppCompatActivity {
             mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
                 public void onCompletion(MediaPlayer mediaPlayer) {
-                    if(!looping) {
-                        if(shuffling) {
-                            playRandomSong();
-                        } else {
-                            next.performClick();
-                        }
+                    if(shuffling) {
+                        playRandomSong();
                     } else {
-                        playCurrentSong();
+                        next.performClick();
                     }
                 }
             });
@@ -245,6 +210,7 @@ public class PlaySong extends AppCompatActivity {
 
         seekBar.setMax(mediaPlayer.getDuration());
         mediaPlayer.start();
+        mHandler.postDelayed(mUpdateSeekBarTask, 1000);
     }
 
     private void playRandomSong() {
@@ -253,8 +219,20 @@ public class PlaySong extends AppCompatActivity {
         playSong(song);
     }
 
-    private void playCurrentSong() {
-        mediaPlayer.seekTo(0);
-        mediaPlayer.start();
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+        mHandler.removeCallbacks(mUpdateSeekBarTask);
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+        mHandler.removeCallbacks(mUpdateSeekBarTask);
+        mediaPlayer.seekTo(seekBar.getProgress());
+        mHandler.postDelayed(mUpdateSeekBarTask, 500);
     }
 }
